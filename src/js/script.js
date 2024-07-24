@@ -148,7 +148,7 @@ const gui = new dat.GUI()
 // creating the options
 const options = {
     ObjectSpeedRotation: 0.01,
-    lightIntensity: 2,
+    lightIntensity: 1,
     lightPositionX: 0,
     lightPositionZ: 0
 }
@@ -195,7 +195,7 @@ directionalLight.shadow.mapSize.height = 400;
 // --------
 
 // -------------------------------------
-scene.fog = new THREE.FogExp2(0x000000, 0.007)
+scene.fog = new THREE.FogExp2(0x000000, 0.005)
 
 
 // animation and render
