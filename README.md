@@ -197,11 +197,11 @@ window.addEventListener('mousedown', onMouseDown, false);
 
 #### How to Use
 
-**Click on the Molecule:**
-When you click on the molecule, you can rotate it by moving the mouse while holding down the mouse button.
+- **Click on the Molecule:**
+    - When you click on the molecule, you can rotate it by moving the mouse while holding down the mouse button.
 
-**Click Elsewhere:**
-When you click elsewhere on the scene, you can control the camera using the usual orbit controls.
+- **Click Elsewhere:**
+    - When you click elsewhere on the scene, you can control the camera using the usual orbit controls.
 
 
 ### License
