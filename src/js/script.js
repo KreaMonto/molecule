@@ -215,12 +215,15 @@ function animate() {
 renderer.setAnimationLoop(animate)
 
 
-
 // Raycaster for detecting clicks
+// --------------------------------
+
+// -------------------------------------
 const raycaster = new THREE.Raycaster();
 const mouse = new THREE.Vector2();
+let intersectedObject = null;
 
-function onMouseClick(event) {
+function onMouseDown(event) {
     // Calculate mouse position in normalized device coordinates
     mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
     mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
@@ -233,11 +236,40 @@ function onMouseClick(event) {
 
     if (intersects.length > 0) {
         // Intersected object found
-        controls.enabled = true;
-        controls.target.copy(intersects[0].point);
-    } else {
+        intersectedObject = intersects[0].object;
         controls.enabled = false;
+        document.addEventListener('mousemove', onMouseMove, false);
+        document.addEventListener('mouseup', onMouseUp, false);
+    } else {
+        controls.enabled = true;
+        intersectedObject = null;
     }
 }
 
-window.addEventListener('click', onMouseClick, false);
+function onMouseMove(event) {
+    if (intersectedObject) {
+        // Calculate mouse movement
+        const movementX = event.movementX || event.mozMovementX || event.webkitMovementX || 0;
+        const movementY = event.movementY || event.mozMovementY || event.webkitMovementY || 0;
+
+        // Update the rotation of the molecule based on mouse movement
+        const rotationSpeed = 0.005;
+        molecula.rotation.y += movementX * rotationSpeed;
+        molecula.rotation.x += movementY * rotationSpeed;
+    }
+}
+
+function onMouseUp() {
+    document.removeEventListener('mousemove', onMouseMove, false);
+    document.removeEventListener('mouseup', onMouseUp, false);
+    intersectedObject = null;
+    controls.enabled = true;
+}
+
+window.addEventListener('mousedown', onMouseDown, false);
+
+window.addEventListener('resize', () => {
+    camera.aspect = window.innerWidth / window.innerHeight;
+    camera.updateProjectionMatrix();
+    renderer.setSize(window.innerWidth, window.innerHeight);
+});
