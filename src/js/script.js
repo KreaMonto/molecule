@@ -33,8 +33,8 @@ const controls = new OrbitControls(camera, renderer.domElement)
 controls.update()
 
 // a grid helper (should be commented later)
-const gridHelper = new THREE.GridHelper(40)
-scene.add(gridHelper)
+// const gridHelper = new THREE.GridHelper(40)
+// scene.add(gridHelper)
 
 // camera initial position
 camera.position.set(-30, 60, 45)
