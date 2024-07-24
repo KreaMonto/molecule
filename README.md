@@ -24,7 +24,7 @@ To get started with this project, follow these steps:
 2. **Navigate into the project directory:**
 
     ```bash
-    cd threejs-molecule-visualization
+    cd your-directory
     ```
 
 3. **Install the dependencies:**
