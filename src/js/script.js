@@ -53,11 +53,11 @@ molecula.receiveShadow = true
 
 // spheres -----------------
 const spheresGeometry = new THREE.SphereGeometry(2.5, 32, 32)
-const spheresMaterial = new THREE.MeshStandardMaterial({ color: 0xFF0000 })
+const spheresMaterial = new THREE.MeshStandardMaterial({ color: 0x4169E1 })
 
 // central sphere
 const centralGeometry = new THREE.SphereGeometry(4, 32, 32)
-const centralMaterial = new THREE.MeshStandardMaterial({ color: 0x4169E1 })
+const centralMaterial = new THREE.MeshStandardMaterial({ color: 0xFF0000 })
 const centralSphere = new THREE.Mesh(centralGeometry, centralMaterial)
 centralSphere.castShadow = true
 centralSphere.receiveShadow = true
@@ -83,6 +83,7 @@ molecula.add(upperCilinder)
 numOfCilinders = 3
 radius = 7
 heightOffset = -5
+
 
 // center point
 var target = new THREE.Vector3(0, 0, 0);
