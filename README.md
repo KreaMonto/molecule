@@ -119,6 +119,91 @@ renderer.setAnimationLoop(animate);
 
 ```
 
+### Interactive Molecule Rotation
+
+This project allows you to interactively rotate a molecule when clicking on it while maintaining the ability to control the camera when clicking elsewhere. This is achieved using a Raycaster to detect mouse clicks on the molecule and handle the interaction accordingly.
+
+- **Raycasting for Molecule Interaction**
+    - To enable interactive rotation of the molecule, the following steps are implemented:
+
+- **Setting Up the Raycaster:**
+    - A Raycaster is created to detect intersections between the mouse click and the molecule.
+
+- **Detecting Mouse Clicks:**
+     - The onMouseDown event is used to determine if the mouse click intersects with the molecule.
+     - If an intersection is detected, controls for the camera are disabled, and mouse events for mousemove and mouseup are enabled to handle the rotation of the molecule.
+
+- **Rotating the Molecule:**
+    - During the mousemove event, the rotation of the molecule is updated based on the mouse movement.
+    - The molecule's rotation is adjusted along the x and y axes to follow the mouse movement.
+
+- **Restoring Camera Controls:**
+    - Once the mouse button is released (mouseup event), the mouse events for mousemove and mouseup are removed, and the camera controls are re-enabled.
+ 
+Below is the implementation code for the raytracing and interactive rotation:
+
+```javascript
+// Raycaster for detecting clicks
+const raycaster = new THREE.Raycaster();
+const mouse = new THREE.Vector2();
+let intersectedObject = null;
+
+function onMouseDown(event) {
+    // Calculate mouse position in normalized device coordinates
+    mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
+    mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
+
+    // Update the raycaster with the camera and mouse position
+    raycaster.setFromCamera(mouse, camera);
+
+    // Calculate objects intersecting the picking ray
+    const intersects = raycaster.intersectObject(molecula, true);
+
+    if (intersects.length > 0) {
+        // Intersected object found
+        intersectedObject = intersects[0].object;
+        controls.enabled = false;
+        document.addEventListener('mousemove', onMouseMove, false);
+        document.addEventListener('mouseup', onMouseUp, false);
+    } else {
+        controls.enabled = true;
+        intersectedObject = null;
+    }
+}
+
+function onMouseMove(event) {
+    if (intersectedObject) {
+        // Calculate mouse movement
+        const movementX = event.movementX || event.mozMovementX || event.webkitMovementX || 0;
+        const movementY = event.movementY || event.mozMovementY || event.webkitMovementY || 0;
+
+        // Update the rotation of the molecule based on mouse movement
+        const rotationSpeed = 0.005;
+        molecula.rotation.y += movementX * rotationSpeed;
+        molecula.rotation.x += movementY * rotationSpeed;
+    }
+}
+
+function onMouseUp() {
+    document.removeEventListener('mousemove', onMouseMove, false);
+    document.removeEventListener('mouseup', onMouseUp, false);
+    intersectedObject = null;
+    controls.enabled = true;
+}
+
+// Add event listeners for mouse actions
+window.addEventListener('mousedown', onMouseDown, false);
+```
+
+#### How to Use
+
+- **Click on the Molecule:**
+    - When you click on the molecule, you can rotate it by moving the mouse while holding down the mouse button.
+
+- **Click Elsewhere:**
+    - When you click elsewhere on the scene, you can control the camera using the usual orbit controls.
+
+
 ### License
 
 This project is licensed under the MIT License. See the LICENSE file for details.
