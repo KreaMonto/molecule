@@ -213,3 +213,31 @@ function animate() {
 }
 
 renderer.setAnimationLoop(animate)
+
+
+
+// Raycaster for detecting clicks
+const raycaster = new THREE.Raycaster();
+const mouse = new THREE.Vector2();
+
+function onMouseClick(event) {
+    // Calculate mouse position in normalized device coordinates
+    mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
+    mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
+
+    // Update the raycaster with the camera and mouse position
+    raycaster.setFromCamera(mouse, camera);
+
+    // Calculate objects intersecting the picking ray
+    const intersects = raycaster.intersectObject(molecula, true);
+
+    if (intersects.length > 0) {
+        // Intersected object found
+        controls.enabled = true;
+        controls.target.copy(intersects[0].point);
+    } else {
+        controls.enabled = false;
+    }
+}
+
+window.addEventListener('click', onMouseClick, false);
